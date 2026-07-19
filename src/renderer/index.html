@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+               script-src 'self' blob:;
+               style-src 'self' 'unsafe-inline';
+               worker-src 'self' blob:;
+               img-src 'self' data:;
+               font-src 'self' data:;
+               connect-src 'self';
+               base-uri 'none';
+               form-action 'none';
+               frame-ancestors 'none';"
+    />
+    <title>oxi_js</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="toolbar">
+        <div class="brand">oxi<span>_js</span></div>
+        <div class="toolbar-actions">
+          <select id="language" class="select">
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+          </select>
+          <button id="export-btn" class="btn" title="Export to file">Export</button>
+          <button id="run-btn" class="btn btn-primary" title="Run (⌘/Ctrl+Enter)">
+            <span class="btn-icon">▶</span> Run
+          </button>
+          <button id="clear-btn" class="btn" title="Clear output">Clear</button>
+        </div>
+      </header>
+      <main class="workspace">
+        <section id="editor-pane" class="pane">
+          <div id="editor"></div>
+        </section>
+        <div class="resizer" id="resizer"></div>
+        <section id="output-pane" class="pane">
+          <div class="output-header">
+            <span>Output</span>
+            <span id="duration" class="duration"></span>
+          </div>
+          <div id="output" class="output"></div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+appId: dev.salem.oxi_js.electron
+productName: oxi_js
+copyright: Copyright © 2026 Orlando Rojas
+directories:
+  buildResources: build
+  output: dist
+files:
+  - out/**/*
+  - package.json
+  - "!**/*.map"
+asar: true
+mac:
+  category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  icon: build/icon.png
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.png
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Development
+  icon: build/icon.png
