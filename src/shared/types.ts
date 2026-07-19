@@ -40,6 +40,26 @@ export interface OxiApi {
   saveCode: (code: string, defaultName?: string) => Promise<SaveCodeResult>;
 }
 
+export interface Tab {
+  id: string;
+  title: string;
+  code: string;
+  language: Language;
+  result: ExecutionResult | null;
+  running: boolean;
+  dirty: boolean;
+}
+
+export interface TabsState {
+  tabs: Tab[];
+  activeId: string;
+}
+
+export interface PersistedTabs {
+  tabs: Array<Pick<Tab, 'id' | 'title' | 'code' | 'language'>>;
+  activeId: string;
+}
+
 declare global {
   interface Window {
     oxi: OxiApi;

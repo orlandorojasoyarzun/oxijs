@@ -15,8 +15,9 @@
     "dist:win": "electron-vite build && electron-builder --win",
     "dist:linux": "electron-vite build && electron-builder --linux",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test": "tsx scripts/test-sandbox.ts",
-    "test:sandbox": "tsx scripts/test-sandbox.ts"
+    "test": "tsx scripts/test-sandbox.ts && tsx scripts/test-tabs.ts",
+    "test:sandbox": "tsx scripts/test-sandbox.ts",
+    "test:tabs": "tsx scripts/test-tabs.ts"
   },
   "dependencies": {
     "monaco-editor": "^0.52.2",

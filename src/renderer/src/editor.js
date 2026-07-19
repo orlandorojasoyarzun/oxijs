@@ -48,11 +48,11 @@ monaco.editor.defineTheme('oxi-kanagawa', {
   },
 });
 
-let currentEditor = null;
+let editor = null;
 
-export function initEditor(containerId, value, language) {
+export function createEditor(containerId, value, language) {
   const container = document.getElementById(containerId);
-  const editor = monaco.editor.create(container, {
+  editor = monaco.editor.create(container, {
     value,
     language,
     theme: 'oxi-kanagawa',
@@ -67,17 +67,47 @@ export function initEditor(containerId, value, language) {
     bracketPairColorization: { enabled: true },
     padding: { top: 12, bottom: 12 },
   });
-  currentEditor = editor;
   return editor;
 }
 
-export function getEditor() {
-  return currentEditor;
+export function createModel(value, language) {
+  return monaco.editor.createModel(value, language);
 }
 
-export function gotoLine(line, column) {
-  if (!currentEditor || !line) return;
-  currentEditor.revealLineInCenter(line);
-  currentEditor.setPosition({ lineNumber: line, column: column || 1 });
-  currentEditor.focus();
+export function disposeModel(model) {
+  if (model) model.dispose();
+}
+
+export function setActiveModel(model) {
+  if (editor && model) editor.setModel(model);
+}
+
+export function getEditor() {
+  return editor;
+}
+
+export function setWordWrap(on) {
+  if (editor) editor.updateOptions({ wordWrap: on ? 'on' : 'off' });
+}
+
+export function setLanguage(model, language) {
+  if (model) monaco.editor.setModelLanguage(model, language);
+}
+
+export function revealLine(model, line, column) {
+  if (!editor || !model || !line) return;
+  setActiveModel(model);
+  editor.revealLineInCenter(line);
+  editor.setPosition({ lineNumber: line, column: column || 1 });
+  editor.focus();
+}
+
+export function onDidChangeModelContent(handler) {
+  if (editor) return editor.onDidChangeModelContent(handler);
+  return { dispose() {} };
+}
+
+export function onKeyDown(handler) {
+  if (editor) return editor.onKeyDown(handler);
+  return { dispose() {} };
 }

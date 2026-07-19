@@ -1,7 +1,3 @@
-import { gotoLine } from './editor.js';
-
-const outputEl = document.getElementById('output');
-
 function formatValue(v) {
   if (v === null) return 'null';
   if (v === undefined) return 'undefined';
@@ -21,7 +17,7 @@ function formatValue(v) {
   return String(v);
 }
 
-function appendMessage(msg) {
+function appendMessage(outputEl, msg) {
   const line = document.createElement('div');
   line.className = `output-line level-${msg.level}`;
 
@@ -35,7 +31,7 @@ function appendMessage(msg) {
   outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-function appendReturn(value) {
+function appendReturn(outputEl, value) {
   if (value === null || value === undefined) return;
   const line = document.createElement('div');
   line.className = 'output-line level-return';
@@ -51,7 +47,7 @@ function appendReturn(value) {
   outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-function appendError(err) {
+function appendError(outputEl, err, onGotoLine) {
   const wrap = document.createElement('div');
   wrap.className = 'output-line level-error';
 
@@ -66,7 +62,7 @@ function appendError(err) {
     const col = err.column ? `:${err.column}` : '';
     meta.textContent = `at line ${err.line}${col}`;
     meta.style.cursor = 'pointer';
-    meta.addEventListener('click', () => gotoLine(err.line, err.column));
+    meta.addEventListener('click', () => onGotoLine?.(err.line, err.column));
     wrap.appendChild(meta);
   }
 
@@ -81,34 +77,36 @@ function appendError(err) {
   outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-export function renderResult(result) {
-  clearOutput();
+export function renderResult(outputEl, result, onGotoLine) {
+  if (!outputEl) return;
+  outputEl.innerHTML = '';
+  if (!result) return;
   for (const msg of result.console || []) {
-    appendMessage(msg);
+    appendMessage(outputEl, msg);
   }
   if (result.return_value !== null && result.return_value !== undefined) {
-    appendReturn(result.return_value);
+    appendReturn(outputEl, result.return_value);
   }
   if (result.error) {
-    appendError(result.error);
+    appendError(outputEl, result.error, onGotoLine);
   }
 }
 
-export function clearOutput() {
-  outputEl.innerHTML = '';
+export function clearOutput(outputEl) {
+  if (outputEl) outputEl.innerHTML = '';
 }
 
-export function setDuration(ms) {
-  const el = document.getElementById('duration');
+export function setDuration(durationEl, ms) {
+  if (!durationEl) return;
   if (!ms) {
-    el.textContent = '';
+    durationEl.textContent = '';
     return;
   }
   if (ms < 1) {
-    el.textContent = '<1 ms';
+    durationEl.textContent = '<1 ms';
   } else if (ms < 1000) {
-    el.textContent = `${ms.toFixed(1)} ms`;
+    durationEl.textContent = `${ms.toFixed(1)} ms`;
   } else {
-    el.textContent = `${(ms / 1000).toFixed(2)} s`;
+    durationEl.textContent = `${(ms / 1000).toFixed(2)} s`;
   }
 }
