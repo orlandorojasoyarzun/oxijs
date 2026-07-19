@@ -203,11 +203,25 @@ body,
   font-size: 15px;
   letter-spacing: 0.5px;
   color: var(--accent);
+  line-height: 1;
 }
 
 .brand span {
   color: var(--text);
   font-weight: 400;
+}
+
+.brand-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  width: 18px;
+  height: 18px;
+  color: #475569;
+  flex-shrink: 0;
 }
 
 .toolbar-actions {
