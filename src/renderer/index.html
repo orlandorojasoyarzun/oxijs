@@ -24,7 +24,7 @@
       <header class="toolbar">
         <div class="brand">oxi<span>_js</span></div>
         <div class="toolbar-actions">
-          <select id="language" class="select">
+          <select id="language" class="select" aria-label="Language">
             <option value="javascript">JavaScript</option>
             <option value="typescript">TypeScript</option>
           </select>
@@ -35,6 +35,7 @@
           <button id="clear-btn" class="btn" title="Clear output">Clear</button>
         </div>
       </header>
+      <nav id="tab-bar" class="tab-bar" aria-label="Open tabs"></nav>
       <main class="workspace">
         <section id="editor-pane" class="pane">
           <div id="editor"></div>
